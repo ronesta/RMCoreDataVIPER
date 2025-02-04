@@ -1,0 +1,14 @@
+//
+//  CharacterDataSourceProtocol.swift
+//  RMCoreDataVIPER
+//
+//  Created by Ибрагим Габибли on 04.02.2025.
+//
+
+import Foundation
+import UIKit
+
+protocol CharacterDataSourceProtocol: UITableViewDataSource {
+    var characters: [Entity] { get set }
+    var networkManager: NetworkManagerProtocol? { get set }
+}

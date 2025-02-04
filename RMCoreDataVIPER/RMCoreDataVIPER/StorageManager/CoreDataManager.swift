@@ -9,10 +9,7 @@ import Foundation
 import UIKit
 import CoreData
 
-public final class CoreDataManager: NSObject {
-    static let shared = CoreDataManager()
-    private override init() {}
-
+public final class CoreDataManager: NSObject, StorageManagerProtocol {
     private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataModel")
         container.loadPersistentStores { _, error in
