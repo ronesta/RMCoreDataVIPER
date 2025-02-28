@@ -9,6 +9,10 @@ import Foundation
 
 protocol CharacterPresenterProtocol: AnyObject {
     func viewDidLoad()
+
     func charactersFetched(_ characters: [Entity])
+
     func charactersFetchFailed(with error: Error)
+
+    func fetchImageData(for characterId: Int64) -> Data?
 }

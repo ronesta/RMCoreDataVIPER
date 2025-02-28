@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import CoreData
 
 public final class CoreDataManager: NSObject, StorageManagerProtocol {
