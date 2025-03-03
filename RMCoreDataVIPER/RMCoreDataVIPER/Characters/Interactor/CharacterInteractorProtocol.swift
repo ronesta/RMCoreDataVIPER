@@ -9,6 +9,4 @@ import Foundation
 
 protocol CharacterInteractorProtocol: AnyObject {
     func getCharacters()
-
-    func getImageData(for characterId: Int64) -> Data?
 }

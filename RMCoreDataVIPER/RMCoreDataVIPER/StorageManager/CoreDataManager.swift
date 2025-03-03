@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-public final class CoreDataManager: NSObject, StorageManagerProtocol {
+public final class CoreDataManager: NSObject {
     private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "CoreDataModel")
         container.loadPersistentStores { _, error in
@@ -68,6 +68,43 @@ public final class CoreDataManager: NSObject, StorageManagerProtocol {
         }
     }
 
+    public func fetchCharacter(id: Int) -> Entity? {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
+        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+
+        do {
+            let entities = try? context.fetch(fetchRequest) as? [Entity]
+            return entities?.first
+        }
+    }
+
+    public func deleteAllCharacters() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
+
+        do {
+            let entities = try? context.fetch(fetchRequest) as? [Entity]
+            entities?.forEach { context.delete($0) }
+        }
+        saveContext()
+    }
+
+    public func deleteCharacter(with id: Int) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
+        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+
+        do {
+            guard let entities = try? context.fetch(fetchRequest) as? [Entity],
+                  let entity = entities.first else {
+                return
+            }
+            context.delete(entity)
+        }
+        saveContext()
+    }
+}
+
+// MARK: - extension StorageManagerProtocol
+extension CoreDataManager: StorageManagerProtocol {
     func saveCharacters(_ characters: [(character: Character, imageData: Data?)]) {
         for (character, imageData) in characters {
             createOrUpdateCharacter(
@@ -107,39 +144,5 @@ public final class CoreDataManager: NSObject, StorageManagerProtocol {
         }
 
         return nil
-    }
-
-    public func fetchCharacter(id: Int) -> Entity? {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
-
-        do {
-            let entities = try? context.fetch(fetchRequest) as? [Entity]
-            return entities?.first
-        }
-    }
-
-    public func deleteAllCharacters() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
-
-        do {
-            let entities = try? context.fetch(fetchRequest) as? [Entity]
-            entities?.forEach { context.delete($0) }
-        }
-        saveContext()
-    }
-
-    public func deleteCharacter(with id: Int) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
-
-        do {
-            guard let entities = try? context.fetch(fetchRequest) as? [Entity],
-                  let entity = entities.first else {
-                return
-            }
-            context.delete(entity)
-        }
-        saveContext()
     }
 }

@@ -8,15 +8,14 @@
 import Foundation
 
 final class CharacterInteractor: CharacterInteractorProtocol {
-    private let presenter: CharacterPresenterProtocol
+    weak var presenter: CharacterPresenterProtocol?
+    
     private let networkManager: NetworkManagerProtocol
     private let storageManager: StorageManagerProtocol
 
-    init(presenter: CharacterPresenterProtocol,
-         networkManager: NetworkManagerProtocol,
+    init(networkManager: NetworkManagerProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.presenter = presenter
         self.networkManager = networkManager
         self.storageManager = storageManager
     }
@@ -25,7 +24,7 @@ final class CharacterInteractor: CharacterInteractorProtocol {
         let savedCharacters = storageManager.fetchCharacters()
 
         guard savedCharacters.isEmpty else {
-            presenter.charactersFetched(savedCharacters)
+            presenter?.charactersFetched(savedCharacters)
             return
         }
 
@@ -77,13 +76,9 @@ final class CharacterInteractor: CharacterInteractorProtocol {
 
                 DispatchQueue.main.async {
                     let fetchCharacters = self.storageManager.fetchCharacters()
-                    self.presenter.charactersFetched(fetchCharacters)
+                    self.presenter?.charactersFetched(fetchCharacters)
                 }
             }
         }
-    }
-
-    func getImageData(for characterId: Int64) -> Data? {
-        storageManager.fetchImageData(forCharacterId: characterId)
     }
 }
