@@ -14,9 +14,9 @@ final class CharacterRouter: CharacterRouterProtocol {
     func createModule() -> UIViewController {
         let storageManager = CoreDataManager()
         let networkManager = NetworkManager()
-        let imageLoader = ImageLoader(storageManager: storageManager)
+        let imageDataFetcher = ImageDataFetcher(storageManager: storageManager)
 
-        let dataSource = CharacterTableViewDataSource(imageLoader: imageLoader)
+        let dataSource = CharacterTableViewDataSource(imageDataFetcher: imageDataFetcher)
         let router = CharacterRouter()
 
         let interactor = CharacterInteractor(networkManager: networkManager,
@@ -31,7 +31,6 @@ final class CharacterRouter: CharacterRouterProtocol {
 
         presenter.view = view
         interactor.presenter = presenter
-
         router.viewController = view
 
         return view

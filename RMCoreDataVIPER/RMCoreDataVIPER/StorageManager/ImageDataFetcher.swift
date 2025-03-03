@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class ImageLoader: ImageLoaderProtocol {
+final class ImageDataFetcher: ImageDataFetcherProtocol {
     private let storageManager: StorageManagerProtocol
 
     init(storageManager: StorageManagerProtocol) {

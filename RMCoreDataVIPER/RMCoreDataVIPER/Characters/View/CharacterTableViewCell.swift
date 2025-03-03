@@ -11,13 +11,13 @@ import SnapKit
 final class CharacterTableViewCell: UITableViewCell {
     static let id = "CharacterTableViewCell"
 
-    let activityIndicator: UIActivityIndicatorView = {
+    private let activityIndicator: UIActivityIndicatorView = {
         let activityIndicator = UIActivityIndicatorView(style: .medium)
         activityIndicator.hidesWhenStopped = true
         return activityIndicator
     }()
 
-    let characterImageView: UIImageView = {
+    private let characterImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -50,7 +50,7 @@ final class CharacterTableViewCell: UITableViewCell {
         return button
     }()
 
-    let markerImageView: UIImageView = {
+    private let markerImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true

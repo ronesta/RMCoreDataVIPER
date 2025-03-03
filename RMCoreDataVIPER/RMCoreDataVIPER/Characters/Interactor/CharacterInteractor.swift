@@ -9,7 +9,7 @@ import Foundation
 
 final class CharacterInteractor: CharacterInteractorProtocol {
     weak var presenter: CharacterPresenterProtocol?
-    
+
     private let networkManager: NetworkManagerProtocol
     private let storageManager: StorageManagerProtocol
 

@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 final class CharacterTableViewDataSource: NSObject, CharacterDataSourceProtocol {
-    private let imageLoader: ImageLoaderProtocol
+    private let imageDataFetcher: ImageDataFetcherProtocol
     var characters = [Entity]()
 
-    init(imageLoader: ImageLoaderProtocol) {
-        self.imageLoader = imageLoader
+    init(imageDataFetcher: ImageDataFetcherProtocol) {
+        self.imageDataFetcher = imageDataFetcher
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -29,7 +29,7 @@ final class CharacterTableViewDataSource: NSObject, CharacterDataSourceProtocol 
 
         let character = characters[indexPath.row]
 
-        guard let imageData = imageLoader.getImageData(for: character.id),
+        guard let imageData = imageDataFetcher.getImageData(for: character.id),
               let image = UIImage(data: imageData) else {
             return cell
         }

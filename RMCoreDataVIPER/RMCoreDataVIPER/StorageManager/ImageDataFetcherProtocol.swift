@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol ImageLoaderProtocol {
+protocol ImageDataFetcherProtocol {
     func getImageData(for characterId: Int64) -> Data?
 }
