@@ -23,7 +23,7 @@ public final class CoreDataManager: NSObject {
         return persistentContainer.viewContext
     }
 
-    func saveContext() {
+    private func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -33,14 +33,15 @@ public final class CoreDataManager: NSObject {
         }
     }
     // swiftlint:disable:next function_parameter_count
-    public func createOrUpdateCharacter(id: Int64,
-                                        gender: String,
-                                        image: String,
-                                        location: String,
-                                        name: String,
-                                        species: String,
-                                        status: String,
-                                        imageData: Data?) {
+    private func createOrUpdateCharacter(id: Int64,
+                                         gender: String,
+                                         image: String,
+                                         location: String,
+                                         name: String,
+                                         species: String,
+                                         status: String,
+                                         imageData: Data?
+    ) {
         let fetchRequest = NSFetchRequest<Entity>(entityName: "Entity")
         fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 
@@ -68,7 +69,7 @@ public final class CoreDataManager: NSObject {
         }
     }
 
-    public func fetchCharacter(id: Int) -> Entity? {
+    private func fetchCharacter(id: Int) -> Entity? {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
         fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 
@@ -78,7 +79,7 @@ public final class CoreDataManager: NSObject {
         }
     }
 
-    public func deleteAllCharacters() {
+    private func deleteAllCharacters() {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
 
         do {
@@ -88,7 +89,7 @@ public final class CoreDataManager: NSObject {
         saveContext()
     }
 
-    public func deleteCharacter(with id: Int) {
+    private func deleteCharacter(with id: Int) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Entity")
         fetchRequest.predicate = NSPredicate(format: "id == %d", id)
 

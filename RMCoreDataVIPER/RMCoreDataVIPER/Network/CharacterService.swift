@@ -7,9 +7,8 @@
 
 import Foundation
 
-final class NetworkManager: NetworkManagerProtocol {
-    private var dataCounter = 1
-    private var imageCounter = 1
+final class CharacterService: CharacterServiceProtocol {
+    private var counter = 1
 
     private let urlString = "https://rickandmortyapi.com/api/character"
 
@@ -41,45 +40,14 @@ final class NetworkManager: NetworkManagerProtocol {
                 let characters = try JSONDecoder().decode(PostCharacters.self, from: data)
                 DispatchQueue.main.async {
                     completion(characters.results, nil)
-                    print("Load data \(self.dataCounter)")
-                    self.dataCounter += 1
+                    print("Load data \(self.counter)")
+                    self.counter += 1
                 }
             } catch {
                 print("Decoding error: \(error.localizedDescription)")
                 DispatchQueue.main.async {
                     completion(nil, error)
                 }
-            }
-        }.resume()
-    }
-
-    func loadImage(from urlString: String, completion: @escaping (Data?, Error?) -> Void) {
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL for image")
-            completion(nil, NetworkError.invalidURL)
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            if let error {
-                print("Failed to load image: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-                return
-            }
-
-            guard let data else {
-                print("No data for image")
-                DispatchQueue.main.async {
-                    completion(nil, NetworkError.noData)
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(data, nil)
-                print("Load image \(self.imageCounter)")
-                self.imageCounter += 1
             }
         }.resume()
     }

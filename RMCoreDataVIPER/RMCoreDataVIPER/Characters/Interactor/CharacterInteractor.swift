@@ -10,13 +10,16 @@ import Foundation
 final class CharacterInteractor: CharacterInteractorProtocol {
     weak var presenter: CharacterPresenterProtocol?
 
-    private let networkManager: NetworkManagerProtocol
+    private let characterService: CharacterServiceProtocol
+    private let imageLoader: ImageLoaderProtocol
     private let storageManager: StorageManagerProtocol
 
-    init(networkManager: NetworkManagerProtocol,
+    init(characterService: CharacterServiceProtocol,
+         imageLoader: ImageLoaderProtocol,
          storageManager: StorageManagerProtocol
     ) {
-        self.networkManager = networkManager
+        self.characterService = characterService
+        self.imageLoader = imageLoader
         self.storageManager = storageManager
     }
 
@@ -28,7 +31,7 @@ final class CharacterInteractor: CharacterInteractorProtocol {
             return
         }
 
-        networkManager.getCharacters { [weak self] result, error in
+        characterService.getCharacters { [weak self] result, error in
             guard let self else {
                 return
             }
@@ -49,7 +52,7 @@ final class CharacterInteractor: CharacterInteractorProtocol {
 
             result.forEach { res in
                 group.enter()
-                self.networkManager.loadImage(from: res.image) { data, error in
+                self.imageLoader.loadImage(from: res.image) { data, error in
                     defer {
                         group.leave()
                     }

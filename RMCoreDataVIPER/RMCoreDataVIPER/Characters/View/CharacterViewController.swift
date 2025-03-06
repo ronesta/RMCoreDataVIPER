@@ -9,14 +9,14 @@ import UIKit
 import SnapKit
 
 final class CharacterViewController: UIViewController {
-    private let presenter: CharacterPresenterProtocol
-    private let dataSource: CharacterDataSourceProtocol
-
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.separatorStyle = .none
         return tableView
     }()
+
+    private let presenter: CharacterPresenterProtocol
+    private let dataSource: CharacterDataSourceProtocol
 
     init(presenter: CharacterPresenterProtocol,
          dataSource: CharacterDataSourceProtocol

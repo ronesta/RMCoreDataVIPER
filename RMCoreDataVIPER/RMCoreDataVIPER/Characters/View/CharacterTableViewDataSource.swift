@@ -10,6 +10,7 @@ import UIKit
 
 final class CharacterTableViewDataSource: NSObject, CharacterDataSourceProtocol {
     private let imageDataFetcher: ImageDataFetcherProtocol
+
     var characters = [Entity]()
 
     init(imageDataFetcher: ImageDataFetcherProtocol) {
